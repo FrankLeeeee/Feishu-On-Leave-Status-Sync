@@ -1,0 +1,37 @@
+name: Build on Schedule
+
+on:
+  schedule:
+    # run at 00:00 of every Sunday
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Query and Makr On-Leave
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8.14'
+
+    - name: 💾 Cache node modules
+      uses: actions/cache@v3
+      id: cache-data
+      with:
+        path: data.cache
+        key: ${{ runner.os }}-cache-data
+
+    - name: Fetch approval list and mark
+      id: run
+      run: |
+        pip install -r requirements.txt
+        python main.py 
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        APPROVAL_CODE: ${{ secrets.APPROVAL_CODE }}
+        HOURS: ${{ secrets.HOURS }}
