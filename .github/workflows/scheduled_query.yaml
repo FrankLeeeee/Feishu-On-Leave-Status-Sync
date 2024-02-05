@@ -29,7 +29,7 @@ jobs:
       id: run
       run: |
         pip install -r requirements.txt
-        python main.py 
+        python main.py --app-id $APP_ID --app-secret $APP_SECRET --approval-code $APPROVAL_CODE --hours $HOURS
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
