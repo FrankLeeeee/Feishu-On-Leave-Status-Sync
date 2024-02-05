@@ -1,4 +1,4 @@
-name: Build on Schedule
+name: Query and Mark On-Leave
 
 on:
   schedule:
