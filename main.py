@@ -122,6 +122,7 @@ def create_onleave_calendar(
 def load_cache_data():
     with open(DB_PATH, 'r') as f:
         data = json.load(f)
+    return data
 
 def save_cache_data(data: dict):
     with open(DB_PATH, 'w') as f:
