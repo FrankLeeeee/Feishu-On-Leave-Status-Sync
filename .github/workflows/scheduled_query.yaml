@@ -19,10 +19,12 @@ jobs:
         python-version: '3.8.14'
 
     - name: 💾 Restore cache
-      uses: actions/download-artifact@v4
-      continue-on-error: true
+      uses: actions/cache@v3
       with:
-        name: instance-id-cache-data
+        path: data.cache
+        key: instance-list-${{ runner.os }}-${{ github.run_id }}
+        restore-keys: |
+          instance-list-${{ runner.os }}
 
     - name: Fetch approval list and mark
       id: run
@@ -34,11 +36,4 @@ jobs:
         APP_SECRET: ${{ secrets.APP_SECRET }}
         APPROVAL_CODE: ${{ secrets.APPROVAL_CODE }}
         HOURS: ${{ secrets.HOURS }}
-
-    - name: 💾 Save cache
-      uses: actions/upload-artifact@v4
-      with:
-        name: instance-id-cache-data
-        path: data.cache
-        retention-days: 7
 
