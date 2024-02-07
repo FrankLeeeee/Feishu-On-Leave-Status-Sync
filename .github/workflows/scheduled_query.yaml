@@ -18,12 +18,11 @@ jobs:
       with:
         python-version: '3.8.14'
 
-    - name: 💾 Cache node modules
-      uses: actions/cache@v3
-      id: cache-data
+    - name: 💾 Restore cache
+      uses: actions/cache/restore@v4
       with:
         path: data.cache
-        key: ${{ runner.os }}-cache-data
+        key: instance-id-cache-data
 
     - name: Fetch approval list and mark
       id: run
@@ -35,3 +34,11 @@ jobs:
         APP_SECRET: ${{ secrets.APP_SECRET }}
         APPROVAL_CODE: ${{ secrets.APPROVAL_CODE }}
         HOURS: ${{ secrets.HOURS }}
+
+    - name: 💾 Save cache
+      uses: actions/cache/save@v4
+      if: always()
+      with:
+        path: data.cache
+        key: instance-id-cache-data
+
