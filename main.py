@@ -88,6 +88,10 @@ def create_onleave_calendar(
         user_id: str, name: str, start_time: str, end_time: str):
     URL = "https://open.feishu.cn/open-apis/calendar/v4/timeoff_events"
 
+    # datetime now 
+    datetime_now = get_datetime_now()
+    now_str = datetime_now.strftime("%Y-%m-%dT%H:%M:%S")
+    
     # convert the date string to a datetime object
     start_date = datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S%z")
     end_date = datetime.strptime(end_time, "%Y-%m-%dT%H:%M:%S%z")
@@ -113,7 +117,7 @@ def create_onleave_calendar(
         "start_time": f"{start_time_stamp}",
         "end_time": f"{end_time_stamp}",
         "title": f"{name}, {start_date_str} - {end_date_str}",
-        "description": "此日程由机器人自动生成"
+        "description": f"此日程由机器人自动生成 - {now_str}"
     }
     response = requests.post(URL, headers=headers, params=query_params, json=data)
     return response.json()
